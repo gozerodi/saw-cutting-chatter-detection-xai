@@ -104,3 +104,21 @@ This phase cracks open the "black box" of the XGBoost model, explaining the math
 * **`10_Physical_Validation_and_Signal_Dynamics.ipynb` (Bridging AI and Physics):**
     * **Raw Signal Mapping:** The critical parameters highlighted during the XAI phase (specifically focusing on motor load and vibration characteristics) were mapped directly back to the raw, unfiltered sensor data.
     * **Parametric Isolation:** The dynamic behavior of these physical signals was systematically compared between stable cutting regimes and confirmed chatter zones. Furthermore, rigorous parametric analyses were performed to observe signal evolution under isolated machine settings: evaluating variations while maintaining a constant cutting speed with differing feed rates, and conversely, maintaining a constant feed rate across varying cutting speeds.
+
+    ## Results & Key Findings: Decoding Chatter Dynamics
+
+This section details the culmination of the machine learning pipeline, presenting not only the predictive accuracy of the model but also the fundamental physical truths uncovered through Explainable AI (XAI) and raw signal validation.
+
+### 1. Model Performance (The Foundation)
+
+Before interpreting the physical causes of chatter, the reliability of the XGBoost model was established through rigorous evaluation. The model demonstrated exceptional capability in distinguishing between stable cutting conditions and the onset of chatter vibrations.
+
+* **Overall Accuracy & Reliability:** Evaluated over 25,307 distinct 1-second rolling windows across all experiments, the model achieved an overall accuracy of **91.2%**, supported by a robust Area Under the Curve (AUC) score of **0.9684**.
+* **Precision and Recall:** For the critical task of detecting chatter (Class 1), the model achieved a Recall of **0.870**, meaning it successfully caught 87% of all actual chatter windows. The Precision stood at **0.844**, ensuring a low rate of false alarms.
+* **Physical Time-Scale Confusion Matrix:** Every prediction corresponds to a 1-second physical time window during the cutting process. The overall confusion matrix reveals the model's performance in real-world time terms:
+    * **True Positives (6,666 seconds):** The model correctly identified 6,666 seconds of active chatter.
+    * **True Negatives (16,415 seconds):** The model accurately confirmed 16,415 seconds of stable, healthy cutting.
+    * **False Negatives (994 seconds):** The model missed 994 seconds where chatter was physically present but predicted as stable.
+    * **False Positives (1,232 seconds):** The model raised an early warning for 1,232 seconds, predicting chatter while the physical label was still marked as stable.
+
+The F1-Score of **0.857** for the chatter class confirms that the model strikes an excellent balance, providing a highly reliable foundation for the subsequent extraction of physical insights.
