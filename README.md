@@ -91,3 +91,16 @@ Following the initial performance verification, this phase focuses on mathematic
 
 * **`08_Final_Model.ipynb` (Full Dataset Training):**
     With the hyperparameters verified and the decision threshold mathematically justified, the final XGBoost classifier was assembled. Instead of relying on an arbitrary number of trees, the optimal `n_estimators` value (**303 trees**) was extracted by averaging the early-stopping iterations across all 20 LOOCV folds. The final model was then trained on the **entire 20-experiment dataset** using this optimal tree count. This final, fully informed model serves as the basis for the subsequent Explainable AI (XAI) and physical signal analyses.
+
+    ### Phase 5: Explainable AI (XAI) & Physical Signal Validation
+
+This phase cracks open the "black box" of the XGBoost model, explaining the mathematical reasoning behind its predictions and validating those statistical findings against actual mechanical signal dynamics.
+
+* **`09_XAI_and_SHAP_Analysis.ipynb` (Decoding the Model Logic):**
+    * **Global Explainability:** Traditional feature importance metrics were initially evaluated, followed by a comprehensive SHAP (SHapley Additive exPlanations) analysis. SHAP summary plots were utilized to reveal exactly how each statistical feature mathematically pushes the model's decision toward either a "Stable" or "Chatter" classification.
+    * **Feature Interactions:** SHAP Dependence analyses were conducted to observe the complex, non-linear interactions between different engineered parameters during the cutting process.
+    * **Local Explainability:** SHAP Waterfall plots were generated to dissect individual, specific predictions, providing a highly transparent breakdown of the exact mathematical reasoning behind single classification events. *(The specific physical insights derived from these analyses are detailed in the Key Findings section).*
+
+* **`10_Physical_Validation_and_Signal_Dynamics.ipynb` (Bridging AI and Physics):**
+    * **Raw Signal Mapping:** The critical parameters highlighted during the XAI phase (specifically focusing on motor load and vibration characteristics) were mapped directly back to the raw, unfiltered sensor data.
+    * **Parametric Isolation:** The dynamic behavior of these physical signals was systematically compared between stable cutting regimes and confirmed chatter zones. Furthermore, rigorous parametric analyses were performed to observe signal evolution under isolated machine settings: evaluating variations while maintaining a constant cutting speed with differing feed rates, and conversely, maintaining a constant feed rate across varying cutting speeds.
