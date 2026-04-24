@@ -16,7 +16,7 @@ The dataset consists of 21 experimental runs with varying cutting speeds and fee
 
 The model was trained using raw signals arriving at a sampling interval of **100 ms**. The raw signal data used in this study is located at:  `/Users/rodigoze/Documents/GitHub/saw-cutting-chatter-detection-xai/saw-cutting-chatter/01_Raw_Data/01_raw_signals`
 
-| File ID | Cutting Speed (m/min) | Feed Rate (mm/z) | Status |
+| File ID | Cutting Speed (m/min) | Feed Rate (mm/z) | Chatter Onset (%) |
 | :--- | :---: | :---: | :--- |
 | **Cutting 1** | 100 | 0.055 | Stable |
 | **Cutting 2** | 110 | 0.060 | Stable |
@@ -29,14 +29,29 @@ The model was trained using raw signals arriving at a sampling interval of **100
 | **Cutting 9** | 115 | 0.060 | Stable |
 | **Cutting 10**| 115 | 0.065 | Stable |
 | **Cutting 11**| 115 | 0.070 | Stable |
-| **Cutting A** | 120 | 0.055 | Chatter |
-| **Cutting B** | 125 | 0.055 | Chatter |
-| **Cutting C** | 125 | 0.060 | Chatter |
-| **Cutting D** | 125 | 0.065 | Chatter |
-| **Cutting E** | 125 | 0.070 | Chatter |
-| **Cutting F** | 130 | 0.055 | Chatter |
-| **Cutting G** | 130 | 0.060 | Chatter |
-| **Cutting H** | 130 | 0.065 | Chatter |
-| **Cutting I** | 130 | 0.070 | Chatter |
+| **Cutting A** | 120 | 0.055 | 45 |
+| **Cutting B** | 125 | 0.055 | 9.5 |
+| **Cutting C** | 125 | 0.060 | 24 |
+| **Cutting D** | 125 | 0.065 | 22 |
+| **Cutting E** | 125 | 0.070 | 31 |
+| **Cutting F** | 130 | 0.055 | 39 |
+| **Cutting G** | 130 | 0.060 | 30 |
+| **Cutting H** | 130 | 0.065 | 38 |
+| **Cutting I** | 130 | 0.070 | 31 |
 
+
+### Phase 1: Data Processing & Feature Engineering
+
+The foundation of the project relies on extracting meaningful physical features from massive raw sensor logs. This phase executes a precise, programmatic cleaning and transformation pipeline:
+
+* **`01_sep_cutting_lines.ipynb` (Signal Isolation):** Industrial raw data contains significant idle times, machine positioning, and entry/exit shocks. This script algorithmically isolates the pure steady-state cutting region by filtering specific kinematic conditions (e.g., `Z_Kafa_HMI < 0` and `Kafa.Act.Pos < 444`). This ensures the model strictly learns from actual cutting dynamics.
+
+* **`02_sep_nec_columns.ipynb` (Targeting Sensors):** Reduces the massive dataset by extracting only the critical sensor streams required for the analysis: Spindle Motor Current (`IMotor`), Tool Torque (`Kafa_Act_Trq`), and Tri-axial Acceleration (`X`, `Y`, `Z_Accelerometer`).
+
+* **`03_calculations.ipynb` (Rolling Window Feature Extraction & Labeling):** *The core of the data engineering process.* Raw signals are naturally extremely noisy. To capture the true dynamic trend, the data is processed using a **Rolling Window algorithm** (10-row windows sliding row-by-row). Within each window, complex statistical features are computed:
+    * **Standard Deviations (Std):** Measures the spread and harmonic nature of vibrations.
+    * **High-Frequency RMS:** Calculates the Root Mean Square of the signal's *first derivative* to capture sudden shocks and high-frequency anomalies.
+    * **Chatter Labeling Strategy:** The "Chatter" (1) and "Stable" (0) labels are not applied blindly. For experiments known to exhibit chatter (Lettered files), the `1` label is applied dynamically only after a specific "Percentage Complete" threshold is reached. These thresholds correspond to the exact moments the machine operator physically observed/heard the chatter breakout during the experiment.
+
+* **`04_prep_training_data.ipynb` (Dataset Assembly):** Merges all processed, calculated, and labeled files into a single master training dataset. It performs Exploratory Data Analysis (EDA) to verify the class distribution (Stable vs. Chatter rows) before feeding it into the ML algorithm.
 
