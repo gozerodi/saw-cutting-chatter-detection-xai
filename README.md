@@ -40,6 +40,10 @@ The model was trained using raw signals arriving at a sampling interval of **100
 | **Cutting I** | 130 | 0.070 | 31 |
 
 
+## 📂 Project Architecture (The 10-Step Pipeline)
+
+The project is structured into 10 sequential Jupyter Notebooks, demonstrating a complete end-to-end engineering workflow from raw sensor processing to final physical validation:
+
 ### Phase 1: Data Processing & Feature Engineering
 
 The foundation of the project relies on extracting meaningful physical features from massive raw sensor logs. This phase executes a precise, programmatic cleaning and transformation pipeline:
