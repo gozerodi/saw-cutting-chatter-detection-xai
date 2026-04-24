@@ -50,12 +50,12 @@ The foundation of the project relies on extracting meaningful physical features 
 
 * **`01_sep_cutting_lines.ipynb` (Signal Isolation):** Industrial raw data contains significant idle times, machine positioning, and entry/exit shocks. This script algorithmically isolates the pure steady-state cutting region by filtering specific kinematic conditions (e.g., `Z_Kafa_HMI < 0` and `Kafa.Act.Pos < 444`). This ensures the model strictly learns from actual cutting dynamics.
 
-* **`02_sep_nec_columns.ipynb` (Targeting Sensors):** Reduces the massive dataset by extracting only the critical sensor streams required for the analysis: Spindle Motor Current (`IMotor`), Tool Torque (`Kafa_Act_Trq`), and Tri-axial Acceleration (`X`, `Y`, `Z_Accelerometer`).
+* **`02_sep_nec_columns.ipynb` (Targeting Sensors):** Reduces the massive dataset by extracting only the critical sensor streams required for the analysis: **Motor Load Percentage (`IMotor`)**, **Torque Force applied to the saw head (`Kafa_Act_Trq`)**, and Tri-axial Acceleration (`X`, `Y`, `Z_Accelerometer`).
 
 * **`03_calculations.ipynb` (Rolling Window Feature Extraction & Labeling):** *The core of the data engineering process.* Raw signals are naturally extremely noisy. To capture the true dynamic trend, the data is processed using a **Rolling Window algorithm** (10-row windows sliding row-by-row). Within each window, complex statistical features are computed:
     * **Standard Deviations (Std):** Measures the spread and harmonic nature of vibrations.
     * **High-Frequency RMS:** Calculates the Root Mean Square of the signal's *first derivative* to capture sudden shocks and high-frequency anomalies.
-    * **Chatter Labeling Strategy:** The "Chatter" (1) and "Stable" (0) labels are not applied blindly. For experiments known to exhibit chatter (Lettered files), the `1` label is applied dynamically only after a specific "Percentage Complete" threshold is reached. These thresholds correspond to the exact moments the machine operator physically observed/heard the chatter breakout during the experiment.
+    * **Chatter Labeling Strategy:** The "Chatter" (1) and "Stable" (0) labels are not applied blindly. For experiments known to exhibit chatter (Lettered files), the `1` label is applied dynamically only after a specific "Percentage Complete" threshold is reached. These thresholds correspond to the precise moments when chatter became physically observable and audibly identified during the experimental execution.
 
 * **`04_prep_training_data.ipynb` (Dataset Assembly):** Merges all processed, calculated, and labeled files into a single master training dataset. It performs Exploratory Data Analysis (EDA) to verify the class distribution (Stable vs. Chatter rows) before feeding it into the ML algorithm.
 
