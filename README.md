@@ -61,16 +61,16 @@ The foundation of the project relies on extracting meaningful physical features 
 
 ### Phase 2: Machine Learning & Robust Evaluation
 
-This phase defines the core predictive engine of the project. Rather than using a simple train/test split which often leads to data leakage in time-series data, we implemented a rigorous, highly controlled validation architecture:
+This phase defines the core predictive engine of the project. Rather than utilizing a simple train/test split, which often leads to data leakage in time-series data, a rigorous, highly controlled validation architecture was implemented:
 
 * **`05_XGBoost_Model.ipynb` (Model Configuration & Training):**
-    * **Feature Selection:** The model is fed not just raw statistics, but complex engineered metrics including Standard Deviations, High-Frequency Noise (RMS), Trend (Direction/Acceleration), and Ratio-to-Past values, giving it physical context.
-    * **Addressing Class Imbalance:** Since chatter (1) is a rare anomaly compared to stable cutting (0), a dynamic `scale_pos_weight` was calculated and applied to penalize the model more for missing a chatter event than for a false alarm.
-    * **Anti-Overfitting Arsenal:** The XGBoost classifier is strictly constrained to prevent it from memorizing specific experiment conditions. We utilized a shallow tree depth (`max_depth=4`), slow learning rate (`0.05`), combined with both L1 (`reg_alpha=0.5`) and L2 (`reg_lambda=2.0`) regularization.
+    * **Feature Selection:** The model is fed not just raw statistics, but complex engineered metrics including Standard Deviations, High-Frequency Noise (RMS), Trend (Direction/Acceleration), and Ratio-to-Past values, providing necessary physical context.
+    * **Addressing Class Imbalance:** Since chatter (1) is a rare anomaly compared to stable cutting (0), a dynamic `scale_pos_weight` was calculated and applied to penalize the model more heavily for missing a chatter event than for generating a false alarm.
+    * **Anti-Overfitting Arsenal:** The XGBoost classifier is strictly constrained to prevent the memorization of specific experiment conditions. A shallow tree depth (`max_depth=4`) and a slow learning rate (`0.05`) were utilized, combined with both L1 (`reg_alpha=0.5`) and L2 (`reg_lambda=2.0`) regularization.
 
 * **Strict Leave-One-Out Cross-Validation (LOOCV) Architecture:**
-    To guarantee the model generalizes to completely unseen cutting conditions (different speeds and feed rates), we built a custom LOOCV loop:
-    1. **Isolation:** In each of the 21 folds, one entire experiment file is isolated as the "Test Set". The model has absolutely no access to this data during training.
-    2. **Dynamic Validation Balancing:** From the remaining 20 files, the loop randomly selects exactly **1 Stable file (Numbered) and 1 Chatter file (Lettered)** to act as the "Validation Set".
-    3. **Training & Early Stopping:** The model is trained on the remaining 18 files. It continuously evaluates its performance on the balanced 2-file Validation Set. Using the `clone()` function, a fresh, blank model is spawned for every fold to ensure no memory leakage from previous iterations.
-    4. **Inference:** The model is finalized via early stopping (stopping if validation performance degrades) and then makes predictions on the unseen Test file. This process is repeated 21 times, yielding true, un-biased predictions for every single millisecond of every experiment.
+    To guarantee generalization to completely unseen cutting conditions (different speeds and feed rates), a custom LOOCV loop was constructed:
+    1. **Isolation:** In each of the 20 folds, one entire experiment file is isolated as the "Test Set". The model has absolutely no access to this data during training.
+    2. **Dynamic Validation Balancing:** From the remaining 19 files, exactly **1 Stable file (Numbered) and 1 Chatter file (Lettered)** are randomly selected to act as the "Validation Set".
+    3. **Training & Early Stopping:** The model is trained on the remaining 17 files. Its performance is continuously evaluated on the balanced 2-file Validation Set. Using the `clone()` function, a fresh, blank model is spawned for every fold to ensure no memory leakage occurs from previous iterations.
+    4. **Inference:** The model is finalized via early stopping (halting if validation performance degrades) and then makes predictions on the unseen Test file. This process is repeated 20 times, yielding true, unbiased predictions for every single millisecond of every experiment.
