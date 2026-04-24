@@ -59,3 +59,18 @@ The foundation of the project relies on extracting meaningful physical features 
 
 * **`04_prep_training_data.ipynb` (Dataset Assembly):** Merges all processed, calculated, and labeled files into a single master training dataset. It performs Exploratory Data Analysis (EDA) to verify the class distribution (Stable vs. Chatter rows) before feeding it into the ML algorithm.
 
+### Phase 2: Machine Learning & Robust Evaluation
+
+This phase defines the core predictive engine of the project. Rather than using a simple train/test split which often leads to data leakage in time-series data, we implemented a rigorous, highly controlled validation architecture:
+
+* **`05_XGBoost_Model.ipynb` (Model Configuration & Training):**
+    * **Feature Selection:** The model is fed not just raw statistics, but complex engineered metrics including Standard Deviations, High-Frequency Noise (RMS), Trend (Direction/Acceleration), and Ratio-to-Past values, giving it physical context.
+    * **Addressing Class Imbalance:** Since chatter (1) is a rare anomaly compared to stable cutting (0), a dynamic `scale_pos_weight` was calculated and applied to penalize the model more for missing a chatter event than for a false alarm.
+    * **Anti-Overfitting Arsenal:** The XGBoost classifier is strictly constrained to prevent it from memorizing specific experiment conditions. We utilized a shallow tree depth (`max_depth=4`), slow learning rate (`0.05`), combined with both L1 (`reg_alpha=0.5`) and L2 (`reg_lambda=2.0`) regularization.
+
+* **Strict Leave-One-Out Cross-Validation (LOOCV) Architecture:**
+    To guarantee the model generalizes to completely unseen cutting conditions (different speeds and feed rates), we built a custom LOOCV loop:
+    1. **Isolation:** In each of the 21 folds, one entire experiment file is isolated as the "Test Set". The model has absolutely no access to this data during training.
+    2. **Dynamic Validation Balancing:** From the remaining 20 files, the loop randomly selects exactly **1 Stable file (Numbered) and 1 Chatter file (Lettered)** to act as the "Validation Set".
+    3. **Training & Early Stopping:** The model is trained on the remaining 18 files. It continuously evaluates its performance on the balanced 2-file Validation Set. Using the `clone()` function, a fresh, blank model is spawned for every fold to ensure no memory leakage from previous iterations.
+    4. **Inference:** The model is finalized via early stopping (stopping if validation performance degrades) and then makes predictions on the unseen Test file. This process is repeated 21 times, yielding true, un-biased predictions for every single millisecond of every experiment.
