@@ -77,7 +77,7 @@ This phase defines the core predictive engine of the project. Rather than utiliz
 
 ### Phase 3: Performance Verification & Ground Truth Alignment
 
-This phase transitions the mathematical evaluation into an observable reality by comparing the model's predictive outputs directly with physical observations.
+This phase focuses on validating the predictive outputs by comparing model probabilities with physical observations across the time series.
 
-* **`06_Model_vs_GroundTruth.ipynb` (Continuous Probability Tracking):** Before diving into Explainable AI (XAI), the continuous probability outputs of the XGBoost model are plotted millisecond-by-millisecond against the actual physical Ground Truth. This visualizes precisely how swiftly and accurately the algorithm detects the onset of instability. By mapping the predicted probabilities alongside the true class labels, the exact moment the probability spikes as the cutting process enters the chatter zone is clearly demonstrated.
+* **`06_Model_vs_GroundTruth.ipynb` (Window-based Probability Analysis):** Before proceeding to Explainable AI (XAI) analysis, the model's probability outputs were evaluated for each 1-second window (calculated via a 10-sample rolling window) and compared against the Ground Truth. This visualization demonstrates the algorithm's responsiveness to the onset of instability. By mapping the predicted probabilities alongside the true class labels, the specific alignment between probability spikes and the actual chatter zones was clearly identified and analyzed for every second of the cutting process.
 
