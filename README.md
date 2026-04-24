@@ -81,3 +81,13 @@ This phase focuses on validating the predictive outputs by comparing model proba
 
 * **`06_Model_vs_GroundTruth.ipynb` (Window-based Probability Analysis):** Before proceeding to Explainable AI (XAI) analysis, the model's probability outputs were evaluated for each 1-second window (calculated via a 10-sample rolling window) and compared against the Ground Truth. This visualization demonstrates the algorithm's responsiveness to the onset of instability. By mapping the predicted probabilities alongside the true class labels, the specific alignment between probability spikes and the actual chatter zones was clearly identified and analyzed for every second of the cutting process.
 
+
+### Phase 4: Statistical Optimization & Final Model Deployment
+
+Following the initial performance verification, this phase focuses on mathematically optimizing the model's decision boundaries and deploying the final algorithm using the insights gained from the cross-validation process.
+
+* **`07_ROC_and_Threshold.ipynb` (Boundary Optimization):** * **ROC Analysis:** A Receiver Operating Characteristic (ROC) analysis was conducted on the accumulated LOOCV predictions. The model achieved an Area Under the Curve (AUC) score of **0.9684**. This exceptionally high AUC provides mathematical proof that the algorithm possesses an excellent ability to distinguish between stable cutting and chatter, regardless of the chosen threshold.
+    * **Threshold Tuning:** To maximize the harmonic mean of Precision and Recall, an F1 Score optimization was performed across all possible thresholds. The analysis identified the optimal classification threshold at **0.4965** (effectively 0.50), confirming the default probability boundary and ensuring the model does not suffer from extreme false positive or false negative bias.
+
+* **`08_Final_Model.ipynb` (Full Dataset Training):**
+    With the hyperparameters verified and the decision threshold mathematically justified, the final XGBoost classifier was assembled. Instead of relying on an arbitrary number of trees, the optimal `n_estimators` value (**303 trees**) was extracted by averaging the early-stopping iterations across all 20 LOOCV folds. The final model was then trained on the **entire 21-experiment dataset** using this optimal tree count. This final, fully informed model serves as the basis for the subsequent Explainable AI (XAI) and physical signal analyses.
