@@ -10,10 +10,11 @@ This project aims not only to detect the **chatter vibration** problem in indust
 
 Using raw sensor data (motor current and accelerometer) obtained from 21 different cutting experiments, an XGBoost model was developed and integrated with SHAP analysis. This allowed for the mathematical and physical verification of the root causes of signal dynamics and instabilities during chatter. The project moves beyond "black-box" models by validating machine learning decisions with raw physical signals.
 
-> **Note:** The model was trained with raw signals arriving at a sampling interval of **100 ms**.
 
 ### 📊 Experimental Dataset Summary
 The dataset consists of 21 experimental runs with varying cutting speeds and feed rates. The experiments are categorized into "Stable" (Numbered files) and "Chatter" (Lettered files) based on physical observations.
+
+The model was trained using raw signals arriving at a sampling interval of **100 ms**. The raw signal data used in this study is located at:  `/Users/rodigoze/Documents/GitHub/saw-cutting-chatter-detection-xai/saw-cutting-chatter/01_Raw_Data/01_raw_signals`
 
 | File ID | Cutting Speed (m/min) | Feed Rate (mm/z) | Status |
 | :--- | :---: | :---: | :--- |
