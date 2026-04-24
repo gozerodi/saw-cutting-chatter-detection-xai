@@ -1,53 +1,41 @@
-# 🚀 Industrial Saw Cutting Chatter Detection via Explainable AI (XAI)
+# 🚀 Explainable AI for Industrial Saw Cutting: Chatter Characterization and Detection
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
 ![Machine Learning](https://img.shields.io/badge/Machine%20Learning-XGBoost-orange)
-![Explainable AI](https://img.shields.io/badge/XAI-SHAP-green)
-![Domain](https://img.shields.io/badge/Domain-Mechanical%20Engineering-red)
+![XAI](https://img.shields.io/badge/XAI-SHAP-green)
+![Engineering](https://img.shields.io/badge/Domain-Mechanical%20Engineering-red)
 
 ## 📌 Project Overview
-This repository contains a comprehensive, 10-step data science and engineering pipeline designed to detect and explain **Chatter Vibration (Tırlama)** in industrial saw cutting processes. 
+This project aims not only to detect the **chatter vibration** problem in industrial saw cutting processes but also to decode the physical characteristics of this vibration using **Explainable AI (XAI)**. 
 
-By bridging physical sensor dynamics (motor load, multi-axis acceleration) with advanced Machine Learning (XGBoost) and Explainable AI (SHAP), this project moves beyond simple "black-box" predictions. It successfully identifies the exact physical features that cause instability and provides mathematical proof of the machine's behavior during chatter.
+Using raw sensor data (motor current and accelerometer) obtained from 21 different cutting experiments, an XGBoost model was developed and integrated with SHAP analysis. This allowed for the mathematical and physical verification of the root causes of signal dynamics and instabilities during chatter. The project moves beyond "black-box" models by validating machine learning decisions with raw physical signals.
 
-## 🎯 Key Methodologies & Achievements
-1. **Precise Signal Isolation:** Algorithmic separation of the active cutting region (`sep_cutting`) from transient entry/exit shocks to ensure pure steady-state analysis.
-2. **Advanced Feature Engineering:** Calculating complex statistical metrics (High-Frequency RMS, Standard Deviations, Ratio to Past) from raw physical signals.
-3. **Robust Detection (LOOCV):** Developing an XGBoost classifier evaluated via Leave-One-Out Cross-Validation (LOOCV) to guarantee real-world generalization across varying cutting speeds and feed rates.
-    * **Model Accuracy:** `[BURAYA_ACCURACY_YAZIN]%`
-    * **F1-Score:** `[BURAYA_F1_SCORE_YAZIN]`
-4. **Physical Validation:** Proving the AI's logic by projecting SHAP values back onto the raw, unfiltered motor current and vibration signals.
+> **Note:** The model was trained with raw signals arriving at a sampling interval of **100 ms**.
 
----
+### 📊 Experimental Dataset Summary
+The dataset consists of 21 experimental runs with varying cutting speeds and feed rates. The experiments are categorized into "Stable" (Numbered files) and "Chatter" (Lettered files) based on physical observations.
 
-## 📂 Project Architecture (The 10-Step Pipeline)
+| File ID | Cutting Speed (m/min) | Feed Rate (mm/z) | Status |
+| :--- | :---: | :---: | :--- |
+| **Cutting 1** | 110 | 0.055 | Stable |
+| **Cutting 2** | 110 | 0.060 | Stable |
+| **Cutting 3** | 110 | 0.065 | Stable |
+| **Cutting 4** | 110 | 0.070 | Stable |
+| **Cutting 5** | 120 | 0.060 | Stable |
+| **Cutting 6** | 120 | 0.065 | Stable |
+| **Cutting 7** | 120 | 0.070 | Stable |
+| **Cutting 8** | 115 | 0.055 | Stable |
+| **Cutting 9** | 115 | 0.060 | Stable |
+| **Cutting 10**| 115 | 0.065 | Stable |
+| **Cutting A** | 125 | 0.050 | Chatter |
+| **Cutting B** | 125 | 0.055 | Chatter |
+| **Cutting C** | 125 | 0.060 | Chatter |
+| **Cutting D** | 125 | 0.065 | Chatter |
+| **Cutting E** | 125 | 0.070 | Chatter |
+| **Cutting F** | 130 | 0.055 | Chatter |
+| **Cutting G** | 130 | 0.060 | Chatter |
+| **Cutting H** | 130 | 0.065 | Chatter |
+| **Cutting I** | 130 | 0.070 | Chatter |
+| **Cutting J** | 120 | 0.055 | Chatter |
+| **Cutting K** | 115 | 0.070 | Chatter |
 
-The project is structured into 10 sequential Jupyter Notebooks, demonstrating a complete end-to-end engineering workflow:
-
-### Phase 1: Data Processing & Feature Engineering
-* **`01_sep_cutting.ipynb`**: Imports raw sensor data and applies logic to isolate the actual steady-state cutting area, trimming out machine idle times and entry/exit transients.
-* **`02_calculations.ipynb`**: Performs intensive feature engineering on the isolated cutting data. Calculates critical metrics such as `IMotor_HighFreq_RMS`, `VibRes_Accel_std`, and other axis-specific standard deviations.
-* *(Notebooks 03-04 focus on further data merging, scaling, and preparing the final `06_Training_Data.csv`)*
-
-### Phase 2: Machine Learning & Evaluation
-* **`05_XGBoost_Model.ipynb`**: The core predictive engine. Trains the XGBoost classifier using LOOCV. Includes hyperparameter tuning, confusion matrix generation, threshold optimization, and extracts the final accuracy/performance metrics.
-
-### Phase 3: Explainable AI (XAI) & Physical Proof
-* **`06 to 09_SHAP_Analyses.ipynb`**: Deep dive into the "brain" of the model. Utilizes SHAP Summary plots, Waterfall plots for localized predictions, and Dependence plots to uncover how feature interactions drive the model's decisions.
-* **`10_Raw_Signal_Dynamics_and_Physical_Validation.ipynb`**: The final physical proof. Maps the most critical features identified by SHAP (e.g., `IMotor_HighFreq_RMS` vs `VibRes_Accel_std`) back to the raw time-series data. Features dual-axis standardized plotting and peak/valley direction changes to physically demonstrate the severity of chatter.
-
----
-
-## 🧠 The Physics meets AI: Key Findings
-Through our SHAP and Raw Signal analyses, we uncovered a fundamental dynamic between the machine's motor and its structural vibration:
-* **Chatter Driver (`IMotor_HighFreq_RMS`):** Acts as the primary indicator for instability. When the tool chatters, the motor draws erratic, high-frequency current to compensate for the dynamic loads.
-* **Stabilization Marker (`VibRes_Accel_std`):** The model identifies specific standard deviations in acceleration as a stabilizing factor, capturing the natural harmonic resonance of a healthy cut before it collapses into chaotic chatter.
-
----
-
-## ⚙️ Installation & Usage
-
-### Prerequisites
-Make sure you have Python installed. The required libraries include:
-```bash
-pip install pandas numpy matplotlib seaborn xgboost shap scikit-learn
