@@ -18,7 +18,7 @@ The model was trained using raw signals arriving at a sampling interval of **100
 
 | File ID | Cutting Speed (m/min) | Feed Rate (mm/z) | Status |
 | :--- | :---: | :---: | :--- |
-| **Cutting 1** | 110 | 0.055 | Stable |
+| **Cutting 1** | 100 | 0.055 | Stable |
 | **Cutting 2** | 110 | 0.060 | Stable |
 | **Cutting 3** | 110 | 0.065 | Stable |
 | **Cutting 4** | 110 | 0.070 | Stable |
@@ -28,7 +28,8 @@ The model was trained using raw signals arriving at a sampling interval of **100
 | **Cutting 8** | 115 | 0.055 | Stable |
 | **Cutting 9** | 115 | 0.060 | Stable |
 | **Cutting 10**| 115 | 0.065 | Stable |
-| **Cutting A** | 125 | 0.050 | Chatter |
+| **Cutting 11**| 115 | 0.070 | Stable |
+| **Cutting A** | 120 | 0.055 | Chatter |
 | **Cutting B** | 125 | 0.055 | Chatter |
 | **Cutting C** | 125 | 0.060 | Chatter |
 | **Cutting D** | 125 | 0.065 | Chatter |
@@ -37,6 +38,5 @@ The model was trained using raw signals arriving at a sampling interval of **100
 | **Cutting G** | 130 | 0.060 | Chatter |
 | **Cutting H** | 130 | 0.065 | Chatter |
 | **Cutting I** | 130 | 0.070 | Chatter |
-| **Cutting J** | 120 | 0.055 | Chatter |
-| **Cutting K** | 115 | 0.070 | Chatter |
+
 
