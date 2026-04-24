@@ -74,3 +74,14 @@ This phase defines the core predictive engine of the project. Rather than utiliz
     2. **Dynamic Validation Balancing:** From the remaining 19 files, exactly **1 Stable file (Numbered) and 1 Chatter file (Lettered)** are randomly selected to act as the "Validation Set".
     3. **Training & Early Stopping:** The model is trained on the remaining 17 files. Its performance is continuously evaluated on the balanced 2-file Validation Set. Using the `clone()` function, a fresh, blank model is spawned for every fold to ensure no memory leakage occurs from previous iterations.
     4. **Inference:** The model is finalized via early stopping (halting if validation performance degrades) and then makes predictions on the unseen Test file. This process is repeated 20 times, yielding true, unbiased predictions for every single millisecond of every experiment.
+
+### Phase 3: Explainable AI & Physical Proof
+
+This final phase transitions the project from a purely mathematical evaluation into an observable physical reality. It involves validating the model's predictions directly against raw sensor signals and explaining the fundamental logic behind the AI's decisions.
+
+* **`06_Model_vs_GroundTruth.ipynb` (Performance Verification):** Before diving into feature explanations, the model's continuous probability outputs are plotted millisecond-by-millisecond against the actual physical Ground Truth. This visualizes precisely how swiftly the XGBoost algorithm detects the onset of instability, tracking the exact moment the probability spikes as the cutting process enters the chatter zone.
+
+* **`07 to 09_SHAP_Analyses.ipynb` (Decoding the Black Box):** SHAP (SHapley Additive exPlanations) values are utilized to decode the model's logic. Summary Plots reveal global feature importance, while Waterfall and Dependence Plots mathematically prove *why* a specific fraction of a second was classified as stable or unstable.
+
+* **`10_Raw_Signal_Dynamics_and_Physical_Validation.ipynb` (The Ultimate Proof):** The mathematical features identified by SHAP (e.g., `IMotor_HighFreq_RMS` vs `VibRes_Accel_std`) are mapped back to the raw, unfiltered time-series data. By employing dual-axis standardized plotting and algorithmic peak/valley counting, the true physical severity of the chatter is demonstrated, perfectly aligning the AI's statistical decisions with the machine's actual mechanical behavior.
+
