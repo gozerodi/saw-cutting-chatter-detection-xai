@@ -127,3 +127,10 @@ Before interpreting the physical causes of chatter, the reliability of the XGBoo
 | :--- | :---: | :---: |
 | **Actual Stable (0)** | 16,415 | 1,232 |
 | **Actual Chatter (1)** | 994 | 6,666 |
+
+### 2. XAI Discoveries: The Inverse Dynamics of Motor Load and Vibration
+
+To decode the mathematical reasoning behind the model's predictions, a comprehensive SHAP (SHapley Additive exPlanations) analysis was conducted. The resulting feature impact evaluations revealed a critical, counter-intuitive physical dynamic between the spindle motor and the tool's structural vibration.
+
+* **The Primary Driver of Chatter (`IMotor_HighFreq_RMS`):** High-frequency fluctuations in the motor current were identified as the most dominant feature in the dataset. High values of this metric strongly push the model's output toward a prediction of **1 (Chatter)**. This mathematically confirms that when the tool struggles during an unstable cut, the spindle motor draws erratic, high-frequency current spikes to compensate for the chaotic dynamic loads.
+* **The Stabilizing Resonance (`VibRes_Accel_std`):** Conversely, a fascinating inverse relationship was discovered regarding the physical vibration. High standard deviations in the resultant acceleration actively push the model's prediction toward **0 (Stable)**. This crucial finding indicates that a high, consistent vibrational amplitude is actually a marker of a healthy, natural harmonic cutting process. It is only when this natural vibrational structure breaks down or degrades that the process transitions into chatter.
