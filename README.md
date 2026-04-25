@@ -19,6 +19,13 @@ This project aims not only to detect the **chatter vibration** problem in indust
 
 Using raw sensor data (motor current and accelerometer) obtained from 20 different cutting experiments, an XGBoost model was developed and integrated with SHAP analysis. This allowed for the mathematical and physical verification of the root causes of signal dynamics and instabilities during chatter. The project moves beyond "black-box" models by validating machine learning decisions with raw physical signals.
 
+### ⚙️ Experimental Setup & Machining Conditions
+To ensure scientific reproducibility and provide physical context for the sensor data, all experiments were conducted under the following controlled industrial conditions:
+
+* **Machine Tool:** The cutting operations were performed on a [MARKA_VE_MODEL_YAZIN, örn: Kasto CNC / Bekamak] industrial saw.
+* **Cutting Kinematics:** The saw head was programmed to feed in a [KESİM_YÖNÜ_YAZIN, örn: strictly vertical downward / horizontal] direction against the workpiece.
+* **Workpiece Material:** All tests were conducted using [MALZEME_TİPİ_YAZIN, örn: AISI 1040 Steel / Aluminum alloy] to maintain a consistent baseline for cutting resistance.
+* **Tool Specifications:** A [TESTERE_TİPİ_YAZIN, örn: carbide-tipped circular saw blade / bi-metal band saw] was utilized across all experimental runs.
 
 ### 📊 Experimental Dataset Summary
 The dataset consists of 20 experimental runs with varying cutting speeds and feed rates. The experiments are categorized into "Stable" (Numbered files) and "Chatter" (Lettered files) based on physical observations.
