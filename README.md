@@ -137,7 +137,7 @@ To decode the mathematical reasoning behind the model's predictions, a comprehen
 
 ### 3. Physical Signal Validation: The Dynamics of Cutting
 
-Following the discoveries made by the Explainable AI, the mathematical findings were directly validated against the raw physical sensor data. A comparative analysis of the maximum High-Frequency RMS values of the spindle motor load (`IMotor_HighFreq_RMS`) across all 21 experiments provided definitive physical proof of the chatter boundary.
+Following the discoveries made by the Explainable AI, the mathematical findings were directly validated against the raw physical sensor data. A comparative analysis of the maximum High-Frequency RMS values of the spindle motor load (`IMotor_HighFreq_RMS`) across all 20 experiments provided definitive physical proof of the chatter boundary.
 
 * **The Physical Threshold of Motor Load:** A strict, observable boundary was identified in the motor's high-frequency dynamic behavior. In completely stable cutting regimes (Numbered files), the absolute maximum High-Frequency RMS value recorded was **0.63** (observed in Cutting 6). The motor naturally struggles up to this point but maintains structural stability.
 * **The Chatter Breakout Spike:** However, the moment a cutting process degrades into chatter (Lettered files), this physical limit is instantly breached. The lowest maximum RMS value recorded during any chatter episode was **0.64** (Cutting A), while severe chatter conditions drove this value to spike as high as **0.85** (Cutting G). 
