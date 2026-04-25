@@ -5,6 +5,15 @@
 ![XAI](https://img.shields.io/badge/XAI-SHAP-green)
 ![Engineering](https://img.shields.io/badge/Domain-Mechanical%20Engineering-red)
 
+![Libraries](https://img.shields.io/badge/Libraries:-lightgrey)
+![Pandas](https://img.shields.io/badge/pandas-150458)
+![NumPy](https://img.shields.io/badge/numpy-013243)
+![Scikit-Learn](https://img.shields.io/badge/scikit--learn-F7931E)
+![XGBoost](https://img.shields.io/badge/xgboost-darkred)
+![SHAP](https://img.shields.io/badge/shap-4B8BBE)
+![Matplotlib](https://img.shields.io/badge/matplotlib-11557c)
+![Seaborn](https://img.shields.io/badge/seaborn-4C72B0)
+
 ## 📌 Project Overview
 This project aims not only to detect the **chatter vibration** problem in industrial saw cutting processes but also to decode the physical characteristics of this vibration using **Explainable AI (XAI)**. 
 
@@ -14,7 +23,7 @@ Using raw sensor data (motor current and accelerometer) obtained from 21 differe
 ### 📊 Experimental Dataset Summary
 The dataset consists of 21 experimental runs with varying cutting speeds and feed rates. The experiments are categorized into "Stable" (Numbered files) and "Chatter" (Lettered files) based on physical observations.
 
-The model was trained using raw signals arriving at a sampling interval of **100 ms**. The raw signal data used in this study is located at:  `/Users/rodigoze/Documents/GitHub/saw-cutting-chatter-detection-xai/saw-cutting-chatter/01_Raw_Data/01_raw_signals`
+The model was trained using raw signals arriving at a sampling interval of **100 ms**. The raw signal data used in this study is located at:  `saw-cutting-chatter-detection-xai/saw-cutting-chatter/01_Raw_Data/01_raw_signals`
 
 | File ID | Cutting Speed (m/min) | Feed Rate (mm/z) | Chatter Onset (%) |
 | :--- | :---: | :---: | :--- |
