@@ -147,3 +147,16 @@ This numerical evidence confirms the SHAP analysis: Chatter is not merely a stru
 * **Dual-Sensor Dynamic Hierarchy (Moving Average Crossover):** A standardized dual-axis visualization was constructed to simultaneously track the moving averages of Motor Load (`IMotor_HighFreq_RMS`) and Vibration (`VibRes_Accel_std`) across varying cutting speeds. A distinct hierarchical relationship was discovered.
     * **Stable Dynamics:** In stable cutting regimes, the moving average of the vibration signal consistently traverses *above* the motor load signal. Even during overlaps, the gap between the two forces remains minimal, indicating a healthy harmonic balance.
     * **Chatter Dominance:** In stark contrast, during experiments exhibiting chatter, the hierarchy permanently flips. The moving average of the motor load spikes and traverses significantly *above* the vibration moving average, creating a wide, observable gap. 
+
+    ## 🚀 Future Works
+
+This research establishes a foundational framework for intelligent chatter detection. To advance the system toward industrial-grade autonomy and zero-defect manufacturing, the following developments are planned:
+
+### 1. Robust Predictive State Locking & Signal Filtering
+Currently, the model performs binary classification (0-1) for each 1-second rolling window based on 100 ms sampling intervals. However, as the cutting process approaches termination, signal attenuation can lead to intermittent "Stable" (0) misclassifications, even if chatter was previously present. 
+* **State Locking Mechanism:** To enhance reliability and prevent further material degradation, a confidence-based state locking mechanism will be implemented. Once a sustained chatter state is identified within a filtered observation window, the system will maintain the "Chatter" classification regardless of signal weakening at the cut's end. This ensures the process remains in a protective state until manual reset or process completion.
+
+### 2. Early Warning Systems for Proactive Chatter Suppression
+Experimental observations reveal that model probabilities often exhibit significant surges before chatter becomes physically audible or visually identifiable to the human observer. 
+* **Proactive Prediction:** Future research will focus on the systematic analysis of the temporal gap between the AI's early detection of hazardous signal trends and the physical onset of vibration. By developing a secondary "Pre-Chatter Warning" layer, the transition from stable cutting to instability can be predicted.
+* **Closed-Loop Prevention:** This methodology aims to facilitate real-time adaptive control—such as autonomous feed rate reduction—allowing for the suppression of instability before chatter ever occurs. This transition from "Detection" to "Prevention" is critical for achieving true zero-damage manufacturing cycles.
