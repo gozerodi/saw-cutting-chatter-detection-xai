@@ -21,9 +21,10 @@ Using raw sensor data (motor current and accelerometer) obtained from 20 differe
 
 ### ⚙️ Experimental Setup & Machining Conditions
 
-* **Machine Tool:** The cutting operations were performed on a [Marka ve model yazıcalak, örn: Kasto CNC / Bekamak] industrial saw.
+* **Machine Tool:** The cutting operations were performed on a 37 kW servo-driven precision circular saw machine.
+* **Cutting Tool:** A Ø900 mm High-Speed Steel (HSS) circular saw blade equipped with cermet-coated carbide teeth was utilized for the experiments.
 * **Cutting Kinematics:** The saw head was programmed to feed in a strictly horizontal direction against the workpiece.
-* **Workpiece Material:** All tests were conducted using [Malzeme yazılacak, örnek: AISI 1040 Steel / Aluminum alloy] to maintain a consistent baseline for cutting resistance.
+* **Workpiece Material:** All tests were conducted using Ø292 mm AISI 1045 steel—a widely utilized material in the machine and manufacturing industry—to maintain a consistent baseline for cutting resistance.
 
 
 ### 📊 Experimental Dataset Summary
